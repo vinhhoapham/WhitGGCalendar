@@ -49,6 +49,16 @@ function dayConvert(day) {
   return result.replace(result[0], '')
 }
 
+// This function converts a number less than 10 to a string
+// with adding an additional zero
+function addValueBelowTwoDigits(value) {
+  var returnString = ''
+  if (value < 10) {
+    returnString += '0'
+  }
+  returnString += value
+  return returnString
+}
 //Handle the request when a message is sent
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -57,6 +67,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   const elements = document.getElementsByClassName("ui-li-static ui-body-inherit");
   const endDate = request.time.endDate.replace(/-/g, '')
   const beginDate = request.time.startDate
+  var colorArray = [...Array(11).keys()]
   var listOfClasses = []
   // Iterating loop
   for (var index = 0; index < elements.length; index++) {
@@ -79,6 +90,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       }
     }
 
+    // THIS FUNCTION breaks down the content of the fourth line
     function deliminate(aLongString) {
       const deliminatedString = aLongString.split(" ")
       event.timeLocation.building = deliminatedString[0]
@@ -89,10 +101,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 
     function eventConvert(object) {
+      // necessary constants
       const startTime = timeConvert(object.timeLocation.startTime)
       const endTime = timeConvert(object.timeLocation.endTime)
       const classDays = dayConvert(object.timeLocation.days)
-      console.log(beginDate)
       const startDate = (function() {
         const aDayInMilliSec = 86400000
         days = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]
@@ -102,23 +114,19 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           date = new Date(date.getTime() + aDayInMilliSec)
         }
 
-        console.log(date)
-        function addValueBelowTwoDigits(value) {
-          var returnString = ''
-          if (value < 10) {
-            returnString += '0'
-          }
-          returnString += value
-          return returnString
-        }
-
         result = date.getUTCFullYear() + '-'
         result += addValueBelowTwoDigits(date.getMonth() + 1) + '-'
         result += addValueBelowTwoDigits(date.getDate())
         return result
       })
       const timeZone = 'America/Los_Angeles'
-
+      const color = (function() {
+        const index = Math.floor(Math.random() * colorArray.length)
+        const result = (colorArray[index] + 1).toString()
+        colorArray.splice(index, 1)
+        return result
+      })
+      const desc = object.subClassName +'\n' + object.professorsName
       const event = {
         "summary": object.className,
         "location": object.timeLocation.building + " " + object.timeLocation.room,
@@ -132,13 +140,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         },
         "recurrence": [
           "RRULE:FREQ=WEEKLY;UNTIL=" + endDate + ";BYDAY=" + classDays
-        ]
+        ],
+        "colorId": color(),
+        "description": desc
       }
 
       return event
-    }
-    // THIS FUNCTION breaks down the content of the fourth line
 
+    }
 
     if (!currentItem.hasAttribute('style')) {
       event.className = currentItem.children[0].textContent
@@ -149,7 +158,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else {
       break
     }
-    console.log(listOfClasses)
+
   }
 
   chrome.runtime.sendMessage({
