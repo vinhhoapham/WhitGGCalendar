@@ -1,18 +1,29 @@
 <!DOCTYPE html>
- <html>
-   <head>
+<html>
 
-   </head>
-   <body>
+<head>
 
-     <div>
-      <label for="sdate">Start date</label>
-      <input type="datetime" id="fname" name="sdate"><br><br>
-      <label for="edate">End date</label>
-      <input type="datetime" id="lname" name="edate"><br><br>
+</head>
+
+<body>
+
+  <div>
+    <form>
+      <label>Start date
+        <input type="date" id="sDate" name="sDate" required>
+        <br><br>
+        <span class="validity"></span>
+      </label>
+      <label>End date
+        <input type="date" id="eDate" name="eDate" required>
+        <br><br>
+        <span class="validity"></span>
+      </label>
       <button id="CreateButton">Create</button>
+    </form>
+  </div>
+  <script src="popup.js"> </script>
 
-    </div>
-    <script src="popup.js"> </script>
-   </body>
- </html>
+</body>
+
+</html>
