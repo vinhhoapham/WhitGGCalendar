@@ -5,7 +5,7 @@
     "manifest_version": 2,
     "content_scripts": [
       {
-        "matches": ["https://my.whitman.edu/mobile"],
+        "matches": ["https://my.whitman.edu/students"],
         "js": ["content.js"]
       }
     ],

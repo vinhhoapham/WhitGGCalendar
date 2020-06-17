@@ -14,6 +14,7 @@ function clickAction(e) {
         }
 
       }
+      alert('clicked')
       chrome.tabs.sendMessage(tabs[0].id, message)
     })
 }

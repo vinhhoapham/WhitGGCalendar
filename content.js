@@ -1,3 +1,19 @@
+// This is the event will be extracted by the extension
+var event = {
+  className: "",
+  subClassName: "",
+  professorsName: "",
+  timeLocation: {
+    building: "",
+    room: "",
+    days: "",
+    startTime: "",
+    endTime: ""
+  }
+}
+
+// This array belong to color
+var colorArray = [...Array(11).keys()]
 // This function converts the time extracted from my.Whitman to
 // a string that Google Calendar can understand
 
@@ -59,107 +75,102 @@ function addValueBelowTwoDigits(value) {
   returnString += value
   return returnString
 }
+
+// THIS FUNCTION breaks down the content of the time location line
+function timelocLineBreakDown(line) {
+  const deliminatedString = line.split(" ")
+  event.timeLocation.building = deliminatedString[0]
+  event.timeLocation.room = deliminatedString[1]
+  event.timeLocation.days = deliminatedString[3]
+  event.timeLocation.startTime = deliminatedString[4]
+  event.timeLocation.endTime = deliminatedString[5]
+}
+
+//Convert the event into Google Calendar ready event
+function eventConvert(object, beginDate, endDate) {
+  // necessary constants
+  const startTime = timeConvert(object.timeLocation.startTime)
+  const endTime = timeConvert(object.timeLocation.endTime)
+  const classDays = dayConvert(object.timeLocation.days)
+  const startDate = (function() {
+    const aDayInMilliSec = 86400000
+    days = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]
+    var date = new Date(beginDate.slice(0, 4), beginDate.slice(5, 7) - 1, beginDate.slice(8, 10))
+
+    while (days[date.getDay()] != classDays.slice(0, 2)) {
+      date = new Date(date.getTime() + aDayInMilliSec)
+    }
+
+    result = date.getUTCFullYear() + '-'
+    result += addValueBelowTwoDigits(date.getMonth() + 1) + '-'
+    result += addValueBelowTwoDigits(date.getDate())
+    return result
+  })
+  const stopDate = endDate.replace(/-/g, '')
+  const timeZone = 'America/Los_Angeles'
+  const color = (function() {
+    const index = Math.floor(Math.random() * colorArray.length)
+    const result = (colorArray[index] + 1).toString()
+    colorArray.splice(index, 1)
+    return result
+  })
+  const desc = object.subClassName + '\n' + object.professorsName
+  const googleCalendarEvent = {
+    "summary": object.className,
+    "location": object.timeLocation.building + " " + object.timeLocation.room,
+    "start": {
+      "dateTime": startDate() + "T" + startTime + "-07:00",
+      "timeZone": timeZone
+    },
+    "end": {
+      "dateTime": startDate() + "T" + endTime + "-07:00",
+      "timeZone": timeZone
+    },
+    "recurrence": [
+      "RRULE:FREQ=WEEKLY;UNTIL=" + stopDate + ";BYDAY=" + classDays
+    ],
+    "colorId": color(),
+    "description": desc
+  }
+
+  return googleCalendarEvent
+
+}
+
+// THIS FUNCTION breaks down  the content of the time
+function classInfoBreakDown(line){
+  const spanElements = line.querySelectorAll('span')
+  event.className = line.querySelectorAll('strong')[0].textContent
+  event.subClassName = spanElements[0].textContent
+  event.professorsName = spanElements[1].textContent
+}
+
 //Handle the request when a message is sent
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
-  // Get elments from the list
-  const elements = document.getElementsByClassName("ui-li-static ui-body-inherit");
-  const endDate = request.time.endDate.replace(/-/g, '')
+  alert('this was called')
+  // Get elments from the webpage
+  const elements = document.getElementsByClassName('basicList wide')[1].querySelectorAll('tbody > tr')
+  console.log(elements)
+  const endDate = request.time.endDate
   const beginDate = request.time.startDate
-  var colorArray = [...Array(11).keys()]
   var listOfClasses = []
   // Iterating loop
   for (var index = 0; index < elements.length; index++) {
 
+    if (!elements[index].firstChild) break;
     //currenItem = the current item which is being selected
-    const currentItem = elements[index]
+    const currentItem = elements[index].querySelectorAll('td')
 
+    classInfoBreakDown(currentItem[1])
+    timelocLineBreakDown(currentItem[2].textContent)
 
-    //Initalize an event belong to a class on the schedule
-    var event = {
-      className: "",
-      subClassName: "",
-      professorsName: "",
-      timeLocation: {
-        building: "",
-        room: "",
-        days: "",
-        startTime: "",
-        endTime: ""
-      }
-    }
-
-    // THIS FUNCTION breaks down the content of the fourth line
-    function deliminate(aLongString) {
-      const deliminatedString = aLongString.split(" ")
-      event.timeLocation.building = deliminatedString[0]
-      event.timeLocation.room = deliminatedString[1]
-      event.timeLocation.days = deliminatedString[3]
-      event.timeLocation.startTime = deliminatedString[4]
-      event.timeLocation.endTime = deliminatedString[5]
-    }
-
-    function eventConvert(object) {
-      // necessary constants
-      const startTime = timeConvert(object.timeLocation.startTime)
-      const endTime = timeConvert(object.timeLocation.endTime)
-      const classDays = dayConvert(object.timeLocation.days)
-      const startDate = (function() {
-        const aDayInMilliSec = 86400000
-        days = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]
-        var date = new Date(beginDate.slice(0, 4), beginDate.slice(5, 7) - 1, beginDate.slice(8, 10))
-
-        while (days[date.getDay()] != classDays.slice(0, 2)) {
-          date = new Date(date.getTime() + aDayInMilliSec)
-        }
-
-        result = date.getUTCFullYear() + '-'
-        result += addValueBelowTwoDigits(date.getMonth() + 1) + '-'
-        result += addValueBelowTwoDigits(date.getDate())
-        return result
-      })
-      const timeZone = 'America/Los_Angeles'
-      const color = (function() {
-        const index = Math.floor(Math.random() * colorArray.length)
-        const result = (colorArray[index] + 1).toString()
-        colorArray.splice(index, 1)
-        return result
-      })
-      const desc = object.subClassName +'\n' + object.professorsName
-      const event = {
-        "summary": object.className,
-        "location": object.timeLocation.building + " " + object.timeLocation.room,
-        "start": {
-          "dateTime": startDate() + "T" + startTime + "-07:00",
-          "timeZone": timeZone
-        },
-        "end": {
-          "dateTime": startDate() + "T" + endTime + "-07:00",
-          "timeZone": timeZone
-        },
-        "recurrence": [
-          "RRULE:FREQ=WEEKLY;UNTIL=" + endDate + ";BYDAY=" + classDays
-        ],
-        "colorId": color(),
-        "description": desc
-      }
-
-      return event
-
-    }
-
-    if (!currentItem.hasAttribute('style')) {
-      event.className = currentItem.children[0].textContent
-      event.subClassName = currentItem.children[1].textContent
-      event.professorsName = currentItem.children[2].textContent
-      deliminate(currentItem.children[3].textContent)
-      listOfClasses.push(eventConvert(event))
-    } else {
-      break
-    }
+    listOfClasses.push(eventConvert(event, beginDate, endDate))
 
   }
+
+  console.log(listOfClasses)
 
   chrome.runtime.sendMessage({
     Message: listOfClasses
