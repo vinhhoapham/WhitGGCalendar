@@ -1,4 +1,7 @@
 // Send messages to content.js whenever a button is clicled
+function popupDidLoad() {
+  var title = document.getElementById("titleText")
+}
 
 function clickAction(e) {
 
@@ -14,7 +17,6 @@ function clickAction(e) {
         }
 
       }
-      alert('clicked')
       chrome.tabs.sendMessage(tabs[0].id, message)
     })
 }
@@ -22,6 +24,9 @@ function clickAction(e) {
 
 // Listen for the user clicking the button
 // Execute request
+
+popupDidLoad()
+
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('CreateButton').addEventListener('click', clickAction);
+  document.getElementById('createButton').addEventListener('click', clickAction);
 });

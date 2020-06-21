@@ -13,8 +13,6 @@ function onGAPILoad() {
 }
 
 
-
-
 // Waiting the message from content script
 // If receive the message, execute request
 // creating events on google calendar
