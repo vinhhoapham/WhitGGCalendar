@@ -1,6 +1,6 @@
 {
     "name": "WhitGGCalendar",
-    "version": "1.1",
+    "version": "1.0",
     "description": "This extension will create a calendar on your google calendar base on your class's schedule",
     "manifest_version": 2,
     "content_scripts": [

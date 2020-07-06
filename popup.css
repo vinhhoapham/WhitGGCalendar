@@ -4,9 +4,30 @@ body {
   flex-direction: column;
   flex-wrap: nowrap;
   min-width: 350px;
-  min-height: 300px;
+  min-height: 320px;
   justify-content: flex-start;
 }
+
+input{
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid #d1caca;
+  font-family: "Andale Mono";
+}
+
+input:hover, input:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid rgba(81, 203, 238, 1);
+}
+
+
 
 #headingTitle {
   width: 100%;
@@ -17,6 +38,7 @@ body {
 #headingTitle>h1 {
   color: white;
   text-align: center;
+  font-family: "Trebuchet MS";
 }
 
 #mainForm{
@@ -35,34 +57,35 @@ body {
   color: #284A72;
   margin-bottom: 10px;
   font-size: 1.8em;
-  font-family: "Helvetica Neue";
+  font-family: "pt sans";
   font-weight: 300;
 }
 
 #inputDate > * {
   margin-bottom: 7px;
 }
+
 #buttons {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-top: 8px;
+  justify-content: center;
+  margin-top: 7px;
   margin-bottom: 20px;
 }
 #buttons > button{
   border: none;
   color: white;
-  width: 120px;
-  height: 30px;
+  width: 150px;
+  height: 35px;
   background-color: #84A934;
-  font-size: 1.5em;
+  font-size: 1.3em;
   border-radius: 5px;
-  font-family: "Tahoma";
+  font-family: "Trebuchet MS";
   transition-duration: 0.6s;
   text-align: center;
 
 }
 
 #buttons > button:hover{
-  background-color: red;
+  background-color: #364516;
 }
