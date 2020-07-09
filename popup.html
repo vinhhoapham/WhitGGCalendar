@@ -2,27 +2,76 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="popup.css">
+  <script src="popup.js"> </script>
 </head>
 
 <body>
 
-  <div>
-    <form>
-      <label>Start date
-        <input type="date" id="sDate" name="sDate" required>
-        <br><br>
-        <span class="validity"></span>
-      </label>
-      <label>End date
-        <input type="date" id="eDate" name="eDate" required>
-        <br><br>
-        <span class="validity"></span>
-      </label>
-      <button id="CreateButton">Create</button>
+  <div id="headingTitle">
+    <h1 id="titleText">WhitGGCalendar</h1>
+  </div>
+
+  <div id="mainContent">
+    <form id="mainForm">
+      <div id="calendarBlock">
+        <label for="selectCalendar"> Calendar </label>
+        <select name="selectCalendar" id="calendarOption">
+          Calendar
+        </select>
+      </div>
+      <fieldset>
+        <legend>
+          Reminder
+        </legend>
+
+        <div id="reminder">
+          <div id="notiOption">
+            <label for="notificationOption"> Notifcation option</label>
+            <select name="notificationOption" id="notificationOption">
+              <option> email </option>
+              <option> popup </option>
+            </select>
+          </div>
+
+          <div id="reminderForm">
+            <input type="number" id='reminderTime' placeholder="Minutes before class">
+          </div>
+
+          <div id="betweenClassReminderForm">
+            <input type="number" id='reminderBetweenTime' disabled placeholder="Minutes between class">
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend id="dateTitle">
+        </legend>
+        <div id="dateBlock">
+
+
+
+          <div id="inputDate">
+            <label>Start date </label>
+            <input type="date" id="startDateInput" name="sDate" required>
+            <span class="validity"></span>
+          </div>
+
+          <div id="inputDate">
+            <label>End date </label>
+            <input type="date" id="endDateInput" name="eDate" required>
+            <span class="validity"></span>
+          </div>
+
+
+
+    </form>
+    </fieldset>
+    <div id="buttons">
+      <button id="createButton">Create</button>
+    </div>
     </form>
   </div>
-  <script src="popup.js"> </script>
+
 
 </body>
 
