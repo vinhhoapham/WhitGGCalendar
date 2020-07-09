@@ -1,12 +1,14 @@
 // Send messages to content.js whenever a button is clicled
-const startDateInput = document.getElementById('sDate')
-const endDateInput = document.getElementById('eDate')
+
+
 var calendarIdList = []
-var select = document.getElementById('calendarOption')
+
 var message = {}
 
 function loadTermAndDate() {
-  var title = document.getElementById("titleText")
+  var startDateInput = document.getElementById('startDateInput')
+  var endDateInput = document.getElementById('endDateInput')
+  var title = document.getElementById("dateTitle")
   const selectedTerm = ""
   chrome.tabs.query({
       currentWindow: true,
@@ -38,14 +40,13 @@ function loadTermAndDate() {
   )
 }
 
-function loadCalendarList(){
+function loadCalendarList() {
   chrome.runtime.sendMessage({
     signal: 'getCalendarList'
   })
-  chrome.runtime.onMessage.addListener(function(request){
+  chrome.runtime.onMessage.addListener(function(request) {
     if (request.signal == 'loadCalendarList') {
-      console.log(request)
-
+      var calendarSelect = document.getElementById('calendarOption')
       for (var calendar of request.calendars) {
         var option = document.createElement('Option')
         if (calendar.hasOwnProperty('primary')) {
@@ -55,7 +56,7 @@ function loadCalendarList(){
           option.text = calendar.summary
           calendarIdList.push(calendar.id)
         }
-        select.add(option)
+      calendarSelect.add(option)
       }
     }
 
@@ -63,13 +64,14 @@ function loadCalendarList(){
 
 }
 
+
 function popupDidLoad() {
   loadTermAndDate()
   loadCalendarList()
+
 }
 
 function clickAction(e) {
-  console.log(e)
   chrome.tabs.query({
       currentWindow: true,
       active: true
@@ -81,16 +83,17 @@ function clickAction(e) {
           startDate: startDateInput.value,
           endDate: endDateInput.value
         },
-        calendar: calendarIdList[select.selectedIndex],
+        calendar: calendarIdList[calendarOption.selectedIndex],
         reminder: {
           beforeClass: reminderTime.value,
           betweenClass: reminderBetweenTime.value,
           options: notificationOption.options[notificationOption.selectedIndex].value
         }
       }
-      chrome.tabs.sendMessage(tabs[0].id, {signal: "callToAction"})
+      chrome.tabs.sendMessage(tabs[0].id, {
+        signal: "callToAction"
+      })
       chrome.runtime.sendMessage(message)
-      console.log(message)
     })
 }
 
