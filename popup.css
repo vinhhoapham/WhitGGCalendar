@@ -32,12 +32,46 @@ select:hover, select:focus {
   border: 1px solid rgba(81, 203, 238, 1);
 }
 
+fieldset {
+  border: 1px solid #C6C6C6;
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 15px;
+}
+
+legend {
+  margin-bottom: 5px;
+  font-size: 1.5em;
+}
+
+label {
+  color: #284A72;
+  font-size: 1.5em;
+  font-family: "pt sans";
+  font-weight: 300;
+}
+
+#headingTitle {
+  width: 100%;
+  background-color: #284A72;
+}
+
+#headingTitle>h1 {
+  color: white;
+  text-align: center;
+  font-family: "Trebuchet MS";
+}
 #mainContent {
   width: 80%;
   padding-top: 5%;
   padding-right: 10%;
   padding-left: 10%;
   font-family: "Helvetica Neue";
+}
+
+#mainForm>* {
+  padding-bottom: 5%;
 }
 
 #calendarBlock {
@@ -50,24 +84,19 @@ select:hover, select:focus {
   width: 90%;
 }
 
+
 #reminder>* {
   padding-bottom: 5%;
 }
 
-
-#mainForm>* {
-  padding-bottom: 5%;
+#notiOption{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-#headingTitle {
-  width: 100%;
-  background-color: #284A72;
-}
-
-#headingTitle>h1 {
-  color: white;
-  text-align: center;
-  font-family: "Trebuchet MS";
+#notiOption > select {
+  width: 40%;
 }
 
 #dateBlock {
@@ -106,53 +135,7 @@ select:hover, select:focus {
   text-align: center;
 }
 
-#calendarBlock {
-  display: flex;
-  flex-direction: row;
-}
-
-#calendarBlock>select {
-  width: 50%;
-}
 
 #buttons>button:hover {
   background-color: #364516;
-}
-
-#notiOption{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-#notiOption > select {
-  width: 40%;
-}
-
-#betweenClassReminderForm > input{
-  cursor: not-allowed;
-}
-
-#reminderTime:hover + #betweenClassReminderForm{
-
-}
-
-fieldset {
-  border: 1px solid #C6C6C6;
-  border-radius: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 15px;
-}
-
-legend {
-  margin-bottom: 5px;
-  font-size: 1.5em;
-}
-
-label {
-  color: #284A72;
-  font-size: 1.5em;
-  font-family: "pt sans";
-  font-weight: 300;
 }
