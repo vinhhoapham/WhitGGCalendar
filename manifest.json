@@ -15,7 +15,7 @@
     },
     "key" : "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0OwZx7H7NP6zvCEaF89GTRsLL1TwlHeJ34g8LkVLK2uHva/doFU4NAb3G9MhGWa/oHNocTUItcvXXpRIzzADbWILqEfEHcsujFk9t5dWOYtDJLqWwTn/5N9m70mNnxp5AMkCd5nFXz6aAREl2NgZKvGRLCn307bpVFQ+8BTqIe9F9KM/xusBJCDMn1w7apxWT3D5802apjcdcP0wY/SDo4UxB3np7cJFh6JqskaMYm4bmQVvGGw8pkUJLW0woO+PRTegePkjhlXRJCTBaaycH9FDSXZvgN+U6ktMbk0Es/w5PPhcJRJbQ0rXPbMIuv+2AMbKRkwqaEt5AFZaljcuTQIDAQAB",
     "oauth2": {
-      "client_id": "818473115331-6hm7tpd725lpmjhr8m45fo9luu7i6ink.apps.googleusercontent.com",
+      "client_id": "610968823668-a8716u6apribtc59ghten5nhcoap8lhj.apps.googleusercontent.com",
       "scopes": ["https://www.googleapis.com/auth/calendar"]
     },
     "background": {
