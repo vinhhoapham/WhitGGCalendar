@@ -1,5 +1,5 @@
 // Initalize necessary constants and variable
-const API_KEY = 'AIzaSyBWRPs_lisdB_3ZaHM2AlAtA9qMpXvrKdI'
+const API_KEY = ''
 const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
 var beginDate = ''
 var endDate = ''
